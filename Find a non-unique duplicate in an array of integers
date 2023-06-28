@@ -1,0 +1,29 @@
+//Task 5: Find a non-unique duplicate in an array of integers
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+public class NonuniqueDuplicate {
+    private static void findDuplicates(List<Integer> elements) {
+        HashMap <Integer, Integer> duplicates = new HashMap <>();
+        //key is the element value and the value is the number of times it occurs
+        elements.forEach(e -> duplicates.put(e, duplicates.get(e) == null ? 1 : duplicates.get(e) + 1));
+        // Remove any elements that don't occur more than once from the Map duplicates
+        // and store the result as a list to make it easy to work in the next step
+        List <Map.Entry <Integer, Integer> >
+        result = duplicates.entrySet().stream().filter(d -> d.getValue() > 1).collect(Collectors.toList());
+        // Writing the results for all the elements to the result list
+        result.forEach(e -> System.out.println(String.format("Element %d  occurs %d times", e.getKey(), e.getValue())));
+    }
+
+    public static void main(String[] args) {
+        List <Integer> elements = IntStream.range(1, 101).boxed().collect(Collectors.toList());
+        elements.set(97, 23);
+        elements.set(27, 51);
+        elements.set(99, 23);
+        findDuplicates(elements);
+    }
+    
+}
